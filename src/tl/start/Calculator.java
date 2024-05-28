@@ -2,8 +2,10 @@ package tl.start;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Calculator extends JFrame {
+public class Calculator extends JFrame implements ActionListener {
     /************North********************/
     private JPanel jp_north = new JPanel();
     private JTextField input_text = new JTextField();
@@ -34,6 +36,13 @@ public class Calculator extends JFrame {
         this.c_Btn.setForeground(Color.RED);
         jp_north.add(c_Btn);
 
+        c_Btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                input_text.setText("");
+            }
+        });
+
         this.add(jp_north,BorderLayout.NORTH);
     }
 
@@ -52,6 +61,7 @@ public class Calculator extends JFrame {
             //if(temp.equals("+") ||temp.equals("-") ||temp.equals("/")||temp.equals(".")||temp.equals("=")) {
             //    ;
             //}
+            btn.addActionListener(this);
             jp_center.add(btn);
         }
         this.add(jp_center,BorderLayout.CENTER);
@@ -60,5 +70,46 @@ public class Calculator extends JFrame {
     public static void main(String[] args) {
         Calculator calculator = new Calculator();
         calculator.setVisible(true);
+    }
+
+    private String firstInput = null;
+    private String operator = null;
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String clickStr = e.getActionCommand();
+        if(".0123456789".indexOf(clickStr) != -1) {
+            this.input_text.setText(input_text.getText() + clickStr);
+            this.input_text.setHorizontalAlignment(JTextField.RIGHT);
+            // JOptionPane.showMessageDialog(this,clickStr);
+            }else if(clickStr.matches("[\\+\\-*/]{1}")) {
+            operator = clickStr;
+            firstInput = this.input_text.getText();
+            this.input_text.setText("");
+        } else if (clickStr.equals("=")){
+            Double a = Double.valueOf(firstInput);
+            Double b = Double.valueOf(this.input_text.getText());
+            Double result =null;
+            switch (operator) {
+                case "+":
+                    result = a + b;
+                    break;
+
+                case "-":
+                    result = a - b;
+                    break;
+
+                case "*":
+                    result = a * b;
+                    break;
+
+                case "/":
+                    if(b != 0) {
+                        result = a / b;
+                    }
+                    break;
+            }
+            this.input_text.setText(result.toString());
+        }
+
     }
 }
