@@ -1,13 +1,16 @@
 package test.tl.start;
 
-import tl.start.Calculator;
+//import tl.start.Calculator;
 
-import static org.junit.jupiter.api.Assertions.*;
+import tl.start.Calculator;
 
 import javax.swing.*;
 import java.awt.*;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 class CalculatorTest {
+//    tl.start.Calculator calculator;
     tl.start.Calculator calculator;
 
     @org.junit.jupiter.api.BeforeEach
